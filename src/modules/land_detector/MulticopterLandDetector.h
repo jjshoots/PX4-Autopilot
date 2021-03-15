@@ -71,7 +71,10 @@ protected:
 	bool _get_maybe_landed_state() override;
 	bool _get_freefall_state() override;
 	bool _get_ground_effect_state() override;
-
+	bool _get_in_descend() override { return _in_descend; }
+	bool _get_has_low_throttle() override { return _has_low_throttle; }
+	bool _get_horizontal_movement() override { return _horizontal_movement; }
+	bool _get_vertical_movement() override { return _vertical_movement; }
 	float _get_max_altitude() override;
 private:
 
@@ -123,6 +126,8 @@ private:
 	bool _in_descend{false};		///< vehicle is desending
 	bool _horizontal_movement{false};	///< vehicle is moving horizontally
 	bool _below_gnd_effect_hgt{false};	///< vehicle height above ground is below height where ground effect occurs
+	bool _vertical_movement{false};
+	bool _has_low_throttle{false};
 
 	DEFINE_PARAMETERS_CUSTOM_PARENT(
 		LandDetector,
