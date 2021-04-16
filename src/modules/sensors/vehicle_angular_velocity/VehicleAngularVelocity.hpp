@@ -75,7 +75,7 @@ public:
 private:
 	void Run() override;
 
-	void CalibrateAndPublish(const hrt_abstime &timestamp_sample, const matrix::Vector3f &angular_velocity,
+	void CalibrateAndPublish(bool publish, const hrt_abstime &timestamp_sample, const matrix::Vector3f &angular_velocity,
 				 const matrix::Vector3f &angular_acceleration, float scale = 1.f);
 
 	float FilterAngularVelocity(int axis, float data[], int N);
@@ -85,16 +85,16 @@ private:
 	void DisableDynamicNotchFFT();
 	void ParametersUpdate(bool force = false);
 
-	void ResetFilters();
+	void ResetFilters(float new_dt_s, float new_scale = 1.f);
 	void SensorBiasUpdate(bool force = false);
 	bool SensorSelectionUpdate(bool force = false);
-	void UpdateDynamicNotchEscRpm(bool force = false);
-	void UpdateDynamicNotchFFT(bool force = false);
+	void UpdateDynamicNotchEscRpm(float new_scale = 1.f, bool force = false);
+	void UpdateDynamicNotchFFT(float new_scale = 1.f, bool force = false);
 	bool UpdateSampleRate();
 
 	// scaled appropriately for current FIFO mode
-	matrix::Vector3f GetResetAngularVelocity() const;
-	matrix::Vector3f GetResetAngularAcceleration() const;
+	matrix::Vector3f GetResetAngularVelocity(float new_scale = 1.f) const;
+	matrix::Vector3f GetResetAngularAcceleration(float new_dt_s, float new_scale = 1.f) const;
 
 	static constexpr int MAX_SENSOR_COUNT = 4;
 
@@ -171,6 +171,7 @@ private:
 	bool _fifo_available{false};
 
 	perf_counter_t _filter_reset_perf{perf_alloc(PC_COUNT, MODULE_NAME": gyro filter reset")};
+	perf_counter_t _sample_rate_update_perf{perf_alloc(PC_COUNT, MODULE_NAME": gyro sample rate update")};
 	perf_counter_t _selection_changed_perf{perf_alloc(PC_COUNT, MODULE_NAME": gyro selection changed")};
 
 	DEFINE_PARAMETERS(
