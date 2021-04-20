@@ -198,15 +198,15 @@ bool I2CSPICLITest::test_custom()
 
 		while ((ch = cli.getopt(cli_args.argc, cli_args.argv, "T:a:")) != EOF) {
 			switch (ch) {
-			case 'T': T = atoi(cli.optarg());
+			case 'T': T = atoi(cli.optArg());
 				break;
 
-			case 'a': a = atoi(cli.optarg());
+			case 'a': a = atoi(cli.optArg());
 				break;
 			}
 		}
 
-		const char *verb = cli.optarg();
+		const char *verb = cli.optArg();
 		ut_assert_true(verb != nullptr);
 		ut_assert_true(strcmp(verb, "start") == 0);
 		ut_assert_true(T == 432);
@@ -229,7 +229,7 @@ bool I2CSPICLITest::test_custom()
 			}
 		}
 
-		const char *verb = cli.optarg();
+		const char *verb = cli.optArg();
 		ut_assert_true(verb == nullptr);
 	}
 	return true;
