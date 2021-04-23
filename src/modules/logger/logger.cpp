@@ -1853,7 +1853,7 @@ void Logger::write_parameter_defaults(LogType type)
 		// save parameters which are valid AND used AND not volatile
 		if (param != PARAM_INVALID) {
 
-			if (param_is_volatile(param)) {
+			if (param_value_is_default(param) || param_is_volatile(param)) {
 				continue;
 			}
 
